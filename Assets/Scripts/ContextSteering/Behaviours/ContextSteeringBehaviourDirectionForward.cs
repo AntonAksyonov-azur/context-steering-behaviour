@@ -10,17 +10,17 @@ namespace ContextSteering.Behaviours
 
         #region Overrides of AbstractContextSteeringBehaviour
 
-        protected override void UpdateInterest(Transform agentTransform, Vector2[] directions, float[] interest)
+        protected override void UpdateInterest(Transform agentTransform, Vector3[] directions, float[] interest)
         {
             var forwardDirection = agentTransform.up;
             for (var i = 0; i < Resolution; i++)
             {
                 var direction = directions[i]; 
-                interest[i] = Vector2.Dot(forwardDirection, direction);
+                interest[i] = Vector3.Dot(forwardDirection, direction);
             }
         }
 
-        protected override void UpdateDanger(Transform agentTransform, Vector2[] directions, float[] danger)
+        protected override void UpdateDanger(Transform agentTransform, Vector3[] directions, float[] danger)
         {
             for (var i = 0; i < danger.Length; i++)
             {

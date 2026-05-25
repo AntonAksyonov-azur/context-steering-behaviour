@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace ContextSteering.Behaviours
 {
     public class ContextSteeringBehaviourAvoidance : AbstractContextSteeringBehaviour
     {
+        // Debug
+        public readonly List<Vector3> DebugHitPoints = new List<Vector3>();
+        
         private readonly float _avoidDistance;
 
         public ContextSteeringBehaviourAvoidance(int resolution, float avoidDistance) : base(resolution)
@@ -13,7 +17,7 @@ namespace ContextSteering.Behaviours
 
         #region Overrides of AbstractContextSteeringBehaviour
 
-        protected override void UpdateInterest(Transform agentTransform, Vector2[] directions, float[] interest)
+        protected override void UpdateInterest(Transform agentTransform, Vector3[] directions, float[] interest)
         {
             for (var i = 0; i < interest.Length; i++)
             {
@@ -21,10 +25,18 @@ namespace ContextSteering.Behaviours
             }
         }
 
-        protected override void UpdateDanger(Transform agentTransform, Vector2[] directions, float[] danger)
+        protected override void UpdateDanger(Transform agentTransform, Vector3[] directions, float[] danger)
         {
+            // Debug
+            DebugHitPoints.Clear();
+            
+            // Update
             for (var i = 0; i < Resolution; i++)
             {
+                // Clear
+                danger[i] = 0;
+                
+                // Detect obstacle
                 var direction = directions[i];
                 
                 var hit = Physics2D.Raycast(agentTransform.position, direction, _avoidDistance);
@@ -33,9 +45,12 @@ namespace ContextSteering.Behaviours
                     continue;
                 }
 
-                var vectorHitPointDirection = hit.point - (Vector2)agentTransform.position;
+                var vectorHitPointDirection = (Vector3)hit.point - agentTransform.position;
                 var vectorHitPointDirectionNormalized = vectorHitPointDirection.normalized;
-                danger[i] = Vector2.Dot(direction, vectorHitPointDirectionNormalized);
+                danger[i] = Vector3.Dot(direction, vectorHitPointDirectionNormalized);
+                
+                // Debug
+                DebugHitPoints.Add(hit.point);
             }
         }
 

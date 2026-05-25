@@ -46,6 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resolution: 32
+  _avoidDistance: 100
+  _movementSpeed: 188.83
+  _debugDirectionsColor: {r: 0, g: 1, b: 0, a: 1}
+  _debugDirectionLenght: 100
+  _debugHitPointsColor: {r: 1, g: 0, b: 0, a: 1}
+  _debugHitPointsRadius: 5
 --- !u!1 &8844051780829082949
 GameObject:
   m_ObjectHideFlags: 0
