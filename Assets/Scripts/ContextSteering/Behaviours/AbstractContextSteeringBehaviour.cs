@@ -13,7 +13,7 @@ namespace ContextSteering.Behaviours
         private readonly float[] _interest;
         private readonly float[] _danger;
      
-        private readonly Vector3[] _directions;
+        private readonly Vector2[] _directions;
 
         protected AbstractContextSteeringBehaviour(int resolution)
         {
@@ -25,12 +25,12 @@ namespace ContextSteering.Behaviours
 
         #region Required
 
-        protected abstract void UpdateInterest(Transform agentTransform, Vector3[] directions, float[] interest);
-        protected abstract void UpdateDanger(Transform agentTransform, Vector3[] directions, float[] danger);
+        protected abstract void UpdateInterest(Transform agentTransform, Vector2[] directions, float[] interest);
+        protected abstract void UpdateDanger(Transform agentTransform, Vector2[] directions, float[] danger);
 
         #endregion
 
-        public void UpdateBehaviour(Transform agentPosition, Vector3[] directions)
+        public void UpdateBehaviour(Transform agentPosition, Vector2[] directions)
         {
             UpdateInterest(agentPosition, directions, _interest);
             UpdateDanger(agentPosition, directions, _danger);

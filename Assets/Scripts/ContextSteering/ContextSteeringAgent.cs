@@ -7,23 +7,27 @@ namespace ContextSteering
     {
         [Header("Contents")]
         [SerializeField] private int _resolution;
+        [SerializeField] private float _avoidDistance;
 
         private Transform _transform;
-        
+
         private AbstractContextSteeringBehaviour[] _behaviours;
-        private Vector3[] _directions;
+        private Vector2[] _directions;
 
         #region Game Cycle
 
         private void Awake()
         {
             Initialize();
-        }
-        
-        private void Update()
-        {
+            
             UpdateDirections(_directions);
             UpdateBehaviours(_behaviours);
+        }
+
+        private void Update()
+        {
+            // UpdateDirections(_directions);
+            // UpdateBehaviours(_behaviours);
         }
 
         #endregion
@@ -32,23 +36,24 @@ namespace ContextSteering
         {
             //
             _transform = GetComponent<Transform>();
-            
+
             //
             _behaviours = new AbstractContextSteeringBehaviour[]
             {
                 new ContextSteeringBehaviourDirectionForward(_resolution),
+                new ContextSteeringBehaviourAvoidance(_resolution, _avoidDistance),
             };
 
-            _directions = new Vector3[_resolution];
+            _directions = new Vector2[_resolution];
         }
 
-        private void UpdateDirections(Vector3[] directions)
+        private void UpdateDirections(Vector2[] directions)
         {
             var radiansInterval = Mathf.PI * 2 / _resolution;
             for (var i = 0; i < _resolution; i++)
             {
                 var directionAngle = radiansInterval * i;
-                var directionVector = new Vector3(Mathf.Cos(directionAngle), Mathf.Sin(directionAngle), 0.0f);
+                var directionVector = new Vector2(Mathf.Cos(directionAngle), Mathf.Sin(directionAngle));
                 directions[i] = directionVector;
             }
         }
